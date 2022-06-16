@@ -1,8 +1,16 @@
+import useSWR from 'swr'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function Home() {
+  const { data, error } = useSWR('/api/hello', fetcher)
+  // const fetchSpecial = async () => {
+  //   setSpecial(await fetch('https://api.sheridan.edu/specials/').then(res => res.json()));
+  // }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,43 +21,18 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Sheridan&apos;s Special
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        {/* <button onClick={fetchSpecial}>Get Special</button> */}
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+        <h2>Data</h2>
+        {JSON.stringify(data, null, 2)}
+        <hr />
+        <h2>Error</h2>
+        {JSON.stringify(error, null, 2)}
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
 
       <footer className={styles.footer}>
